@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'lost-found-app:latest'
         PYTHON = 'C:\\Users\\Harin\\Downloads\\devops_casestudy\\.venv\\Scripts\\python.exe'
+        KUBECONFIG = 'C:\\Users\\Harin\\.kube\\config'
     }
 
     stages {
