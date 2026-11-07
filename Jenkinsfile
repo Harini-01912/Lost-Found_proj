@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m pip install -r requirements.txt'
+                bat '"C:\Users\Harin\Downloads\devops_casestudy\.venv\Scripts\python.exe" python -m pip install -r requirements.txt'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t lost-found-service .'
+                bat '"C:\Users\Harin\Downloads\devops_casestudy\.venv\Scripts\python.exe" docker build -t lost-found-service .'
             }
         }
 
