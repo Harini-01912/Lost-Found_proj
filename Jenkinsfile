@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'lost-found-app:latest'
+        PYTHON = 'C:\\Users\\Harin\\AppData\\Local\\Programs\\Python\\Python314\\python.exe'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -15,19 +15,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat '"C:\Users\Harin\Downloads\devops_casestudy\.venv\Scripts\python.exe" python -m pip install -r requirements.txt'
+                bat '"%PYTHON%" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest -q'
+                bat '"%PYTHON%" -m pytest -q'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat '"C:\Users\Harin\Downloads\devops_casestudy\.venv\Scripts\python.exe" docker build -t lost-found-service .'
+                bat 'docker build -t lost-found-app:latest .'
             }
         }
 
@@ -43,7 +43,6 @@ pipeline {
         success {
             echo 'Lost and Found application deployed successfully!'
         }
-
         failure {
             echo 'Pipeline failed. Check the console output.'
         }
