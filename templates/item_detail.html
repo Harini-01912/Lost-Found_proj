@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }} · Item details{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <a class="back-link" href="{{ url_for('dashboard') }}">← Back to dashboard</a>
+    <article class="detail-panel mt-3">
+      <span class="badge rounded-pill {{ 'text-bg-danger' if item.kind == 'lost' else 'text-bg-success' }}">{{ item.kind|upper }}</span>
+      <h1 class="h2 mt-3">{{ item.name }}</h1>
+      <p class="text-secondary">{{ item.category }} · {{ 'Lost' if item.kind == 'lost' else 'Found' }} on {{ item.event_date }}</p>
+      <hr>
+      <h2 class="h6 text-uppercase text-secondary">Description</h2>
+      <p class="detail-description">{{ item.description }}</p>
+      <div class="row g-3 mt-2">
+        <div class="col-md-6">
+          <div class="detail-fact"><span class="small text-secondary">LOCATION</span><strong>{{ item.location }}</strong></div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-fact"><span class="small text-secondary">CONTACT</span><strong>{{ item.contact }}</strong></div>
+        </div>
+      </div>
+      <a class="btn {{ 'btn-found' if item.kind == 'lost' else 'btn-lost' }} mt-4" href="{{ url_for('item_matches', kind=item.kind, item_id=item.id) }}">View possible matches</a>
+    </article>
+  </div>
+</div>
+{% endblock %}

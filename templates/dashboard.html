@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Smart Lost &amp; Found{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <span class="eyebrow">REPORT OVERVIEW</span>
+    <h1 class="h2 mb-1">Dashboard</h1>
+    <p class="text-secondary mb-0">Browse reports and review likely lost-and-found pairs.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-lost" href="{{ url_for('report_item', kind='lost') }}">+ Lost item</a>
+    <a class="btn btn-found" href="{{ url_for('report_item', kind='found') }}">+ Found item</a>
+  </div>
+</div>
+
+<section class="mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 mb-0">Potential matches</h2>
+    <span class="small text-secondary">{{ potential_matches|length }} result{% if potential_matches|length != 1 %}s{% endif %} · {{ threshold }}%+ similarity</span>
+  </div>
+  {% if potential_matches %}
+    <div class="table-responsive surface-card">
+      <table class="table align-middle mb-0">
+        <thead><tr><th>Lost item</th><th>Found item</th><th>Similarity</th></tr></thead>
+        <tbody>
+          {% for pair in potential_matches %}
+            <tr>
+              <td><a href="{{ url_for('item_detail', kind='lost', item_id=pair.lost.id) }}">{{ pair.lost.name }}</a><div class="small text-secondary">{{ pair.lost.location }}</div></td>
+              <td><a href="{{ url_for('item_detail', kind='found', item_id=pair.found.id) }}">{{ pair.found.name }}</a><div class="small text-secondary">{{ pair.found.location }}</div></td>
+              <td><span class="similarity-pill">{{ pair.score }}%</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-card">No potential matches yet. Reports scoring {{ threshold }}% or higher will appear here.</div>
+  {% endif %}
+</section>
+
+<div class="row g-4">
+  <section class="col-lg-6">
+    <div class="section-heading lost-heading"><h2 class="h5 mb-0">All lost items</h2><span class="badge text-bg-danger">{{ lost_items|length }}</span></div>
+    <div class="item-list">
+      {% for item in lost_items %}
+        <a class="item-card" href="{{ url_for('item_detail', kind='lost', item_id=item.id) }}">
+          <div class="d-flex justify-content-between gap-2"><strong>{{ item.name }}</strong><span class="small text-secondary">{{ item.event_date }}</span></div>
+          <div class="small text-secondary mt-1">{{ item.category }} · {{ item.location }}</div>
+          <p class="mb-0 mt-2 text-body-secondary">{{ item.description|truncate(120) }}</p>
+        </a>
+      {% else %}<div class="empty-card">No lost items reported.</div>{% endfor %}
+    </div>
+  </section>
+  <section class="col-lg-6">
+    <div class="section-heading found-heading"><h2 class="h5 mb-0">All found items</h2><span class="badge text-bg-success">{{ found_items|length }}</span></div>
+    <div class="item-list">
+      {% for item in found_items %}
+        <a class="item-card" href="{{ url_for('item_detail', kind='found', item_id=item.id) }}">
+          <div class="d-flex justify-content-between gap-2"><strong>{{ item.name }}</strong><span class="small text-secondary">{{ item.event_date }}</span></div>
+          <div class="small text-secondary mt-1">{{ item.category }} · {{ item.location }}</div>
+          <p class="mb-0 mt-2 text-body-secondary">{{ item.description|truncate(120) }}</p>
+        </a>
+      {% else %}<div class="empty-card">No found items reported.</div>{% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}
