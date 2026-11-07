@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: lost-found-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: lost-found
+
+  template:
+    metadata:
+      labels:
+        app: lost-found
+
+    spec:
+      containers:
+        - name: lost-found-container
+          image: lost-found-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000

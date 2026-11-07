@@ -7,7 +7,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -28,7 +27,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t lost-found-app .'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
@@ -44,10 +43,8 @@ pipeline {
         success {
             echo 'Lost and Found application deployed successfully!'
         }
-
         failure {
             echo 'Pipeline failed. Check the console output.'
         }
     }
 }
-

@@ -3,7 +3,7 @@ from datetime import date
 
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
-from database import close_db, get_db, init_db
+from database import init_db, get_db, close_db
 from matching import MATCH_THRESHOLD, find_matches, match_score
 
 
