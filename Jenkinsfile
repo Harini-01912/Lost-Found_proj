@@ -1,12 +1,14 @@
+```groovy
 pipeline {
     agent any
 
     environment {
         IMAGE_NAME = 'lost-found-app:latest'
-        PYTHON = 'C:\\Users\\Harin\\AppData\\Local\\Programs\\Python\\Python314\\python.exe'
+        PYTHON = 'C:\\Users\\Harin\\Downloads\\devops_casestudy\\.venv\\Scripts\\python.exe'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -27,7 +29,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t lost-found-app:latest .'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
@@ -43,8 +45,10 @@ pipeline {
         success {
             echo 'Lost and Found application deployed successfully!'
         }
+
         failure {
             echo 'Pipeline failed. Check the console output.'
         }
     }
 }
+```
